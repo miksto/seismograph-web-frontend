@@ -36,7 +36,7 @@ class Graph extends Component {
 
         this.setState(
           prevState => ({
-            graphData: [...prevState.graphData, json.value].slice(-100)
+            graphData: [...prevState.graphData, json.value].slice(-500)
           })
         )
       } else if (json.type === 'history') {
@@ -64,7 +64,10 @@ class Graph extends Component {
       animation: false,
       bezierCurveTension : 0.2,
       pointDot : false,
-      datasetFill : false
+      datasetFill : false,
+      responsive: true,
+      maintainAspectRatio: false,
+      showTooltips: false,
     }
   }
 
@@ -74,8 +77,6 @@ class Graph extends Component {
         <Line
           data={this.createChartData()}
           options={this.createChartOptions()}
-          width="600"
-          height="250"
           redraw
         />
       </div>
