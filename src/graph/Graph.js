@@ -14,7 +14,7 @@ class Graph extends Component {
   componentDidMount() {
     window.WebSocket = window.WebSocket;
 
-    let connection = new WebSocket('ws://127.0.0.1:3000/subscriber');
+    let connection = new WebSocket('ws://46.101.184.224:3000/subscriber');
 
     connection.onopen = () => {
         console.log("WS connection open");
