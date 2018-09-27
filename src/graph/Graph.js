@@ -62,6 +62,7 @@ class Graph extends Component {
   createChartOptions() {
     return {
       animation: false,
+      bezierCurve : false,
       bezierCurveTension : 0.2,
       pointDot : false,
       datasetFill : false,
@@ -77,7 +78,6 @@ class Graph extends Component {
         <Line
           data={this.createChartData()}
           options={this.createChartOptions()}
-          redraw
         />
       </div>
     );
