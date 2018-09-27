@@ -63,7 +63,8 @@ class Graph extends Component {
     return {
       animation: false,
       bezierCurve : false,
-      bezierCurveTension : 0.2,
+      bezierCurveTension : 0.0,
+      scaleShowGridLines : false,
       pointDot : false,
       datasetFill : false,
       responsive: true,
