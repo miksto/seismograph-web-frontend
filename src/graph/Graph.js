@@ -47,7 +47,6 @@ class Graph extends Component {
           this.setState(
             prevState => ({
               graphData: [...prevState.graphData, ...this.state.tempData].slice(-graphSize),
-              historicData: [...prevState.historicData, ...prevState.graphData.slice(0, batchUpdateSize)].slice(-historySize),
               tempData: [],
               stats: {
                 avg,
@@ -55,19 +54,21 @@ class Graph extends Component {
                 squareDiffSum
               }
             })
-          )
+          );
         } else {
           this.setState(
             prevState => ({
               tempData: [...prevState.tempData, json.value]
             })
-          )
+          );
         }
       } else if (json.type === 'history') {
-        this.setState({
-          graphData: json.data.slice(-graphSize),
-          historicData: json.data.slice(0, json.data.length - graphSize)
-        });
+        this.setState(
+          prevState => ({
+            graphData: json.data.slice(-graphSize),
+            historicData: json.data.slice(0, json.data.length - graphSize).slice(-historySize)
+          })
+        );
       } else {
         console.log("Received invalid type: '" + json.type + "'");
       }
