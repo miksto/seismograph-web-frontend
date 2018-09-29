@@ -16,8 +16,8 @@ class Graph extends Component {
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const historySize = 500;
-    const graphSize = 500;
+    const historySize = 400;
+    const graphSize = 300;
     const batchUpdateSize = 10;
     
     let connection = new WebSocket('ws://46.101.184.224:3000/subscriber');
@@ -65,8 +65,8 @@ class Graph extends Component {
       } else if (json.type === 'history') {
         this.setState(
           prevState => ({
-            graphData: json.data.slice(-graphSize),
-            historicData: json.data.slice(0, json.data.length - graphSize).slice(-historySize)
+            graphData: json.data.slice(0, 500),
+            historicData: json.data.slice(500, json.data.length).slice(-historySize)
           })
         );
       } else {
@@ -105,10 +105,6 @@ class Graph extends Component {
       <div className="Graph">
         <Line
           data={this.createChartData(this.state.graphData)}
-          options={this.createChartOptions()}
-        />
-        <Line
-          data={this.createChartData(this.state.historicData)}
           options={this.createChartOptions()}
         />
         <p>
