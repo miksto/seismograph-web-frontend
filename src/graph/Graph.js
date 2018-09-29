@@ -7,13 +7,19 @@ class Graph extends Component {
   constructor() {
     super();
     this.state = {
-      graphData: []
+      graphData: [],
+      historicData: [],
+      tempData: [],
+      stats: {}
     }
   }
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-
+    const historySize = 1000;
+    const graphSize = 500;
+    const batchUpdateSize = 8;
+    
     let connection = new WebSocket('ws://46.101.184.224:3000/subscriber');
 
     connection.onopen = () => {
@@ -33,27 +39,48 @@ class Graph extends Component {
       }
 
       if (json.type === 'post_data') {
-
-        this.setState(
-          prevState => ({
-            graphData: [...prevState.graphData, json.value].slice(-500)
-          })
-        )
+        if (this.state.tempData.length === batchUpdateSize) {
+          const avg = this.state.graphData.reduce((sum, b) => (sum + b)) / this.state.graphData.length;
+          const squareDiffSum = this.state.graphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)));
+          const std = Math.sqrt(squareDiffSum / this.state.graphData.length);
+          
+          this.setState(
+            prevState => ({
+              graphData: [...prevState.graphData, ...this.state.tempData].slice(-graphSize),
+              historicData: [...prevState.historicData, ...prevState.graphData.slice(0, batchUpdateSize)].slice(-historySize),
+              tempData: [],
+              stats: {
+                avg,
+                std,
+                squareDiffSum
+              }
+            })
+          )
+        } else {
+          this.setState(
+            prevState => ({
+              tempData: [...prevState.tempData, json.value]
+            })
+          )
+        }
       } else if (json.type === 'history') {
         console.log(json.data);
-        this.setState({graphData: json.data});
+        this.setState({
+          graphData: json.data.slice(-graphSize),
+          historicData: json.data.slice(0, json.data.length - graphSize)
+        });
       } else {
         console.log("Received invalid type: '" + json.type + "'");
       }
     };
   }
 
-  createChartData() {
+  createChartData(data) {
     return {
-      labels: this.state.graphData.map(()=>""),
+      labels: data.map(()=>""),
       datasets: [
         {
-          data: this.state.graphData
+          data: data
         }
       ]
     };
@@ -67,9 +94,9 @@ class Graph extends Component {
       scaleShowGridLines : false,
       pointDot : false,
       datasetFill : false,
-      responsive: true,
+      responsive: false,
       maintainAspectRatio: false,
-      showTooltips: false,
+      showTooltips: false
     }
   }
 
@@ -77,9 +104,22 @@ class Graph extends Component {
     return (
       <div className="Graph">
         <Line
-          data={this.createChartData()}
+          data={this.createChartData(this.state.graphData)}
           options={this.createChartOptions()}
+          width="1500"
+          height="300"
         />
+        <Line
+          data={this.createChartData(this.state.historicData)}
+          options={this.createChartOptions()}
+          width="1500"
+          height="300"
+        />
+        <p>
+          Avg: {this.state.stats.avg}<br/>
+          Std: {this.state.stats.std}<br/>
+          squareDiffSum: {this.state.stats.squareDiffSum}<br/>
+        </p>
       </div>
     );
   }
