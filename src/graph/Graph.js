@@ -16,9 +16,9 @@ class Graph extends Component {
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const historySize = 1000;
+    const historySize = 500;
     const graphSize = 500;
-    const batchUpdateSize = 8;
+    const batchUpdateSize = 10;
     
     let connection = new WebSocket('ws://46.101.184.224:3000/subscriber');
 
@@ -64,7 +64,6 @@ class Graph extends Component {
           )
         }
       } else if (json.type === 'history') {
-        console.log(json.data);
         this.setState({
           graphData: json.data.slice(-graphSize),
           historicData: json.data.slice(0, json.data.length - graphSize)
@@ -94,7 +93,7 @@ class Graph extends Component {
       scaleShowGridLines : false,
       pointDot : false,
       datasetFill : false,
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: false,
       showTooltips: false
     }
@@ -106,14 +105,10 @@ class Graph extends Component {
         <Line
           data={this.createChartData(this.state.graphData)}
           options={this.createChartOptions()}
-          width="1500"
-          height="300"
         />
         <Line
           data={this.createChartData(this.state.historicData)}
           options={this.createChartOptions()}
-          width="1500"
-          height="300"
         />
         <p>
           Avg: {this.state.stats.avg}<br/>
