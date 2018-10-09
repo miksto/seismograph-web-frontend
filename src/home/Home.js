@@ -9,13 +9,13 @@ class Home extends Component {
     return (
       <div>
         <h2>Last 10 minutes</h2>
-        <img src="http://46.101.184.224:8080/images/latest.png" />
+        <img src="http://46.101.184.224:8080/images/latest.svg" />
 
         <h2>Last hour</h2>
-        <img src={"http://46.101.184.224:8080/images/hour_" + previous_hour + ".png"} />
+        <img src={"http://46.101.184.224:8080/images/hour_" + previous_hour + ".svg"} />
 
         <h2>Yesterdays day plot</h2>
-        <img src={"http://46.101.184.224:8080/images/day_" + yesterday + ".png"} />
+        <img src={"http://46.101.184.224:8080/images/day_" + yesterday + ".svg"} />
       </div>
     );
   }
