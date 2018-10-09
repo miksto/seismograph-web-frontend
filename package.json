@@ -2,6 +2,10 @@
   "name": "seismometer-web-client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "6.4.1",
+    "node": "8.12.0"
+  },
   "dependencies": {
     "ajv": "^6.5.4",
     "chart.js": "^1.1.1",
