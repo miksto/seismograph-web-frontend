@@ -8,19 +8,15 @@ class Graph extends Component {
     super();
     this.state = {
       graphData: [],
-      historicData: [],
-      tempData: [],
       stats: {}
     }
   }
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const historySize = 400;
-    const graphSize = 300;
-    const batchUpdateSize = 10;
+    const graphSize = 200;
     
-    let connection = new WebSocket('ws://46.101.184.224:3000/subscriber');
+    let connection = new WebSocket('ws://46.101.184.224:3000/web-client');
 
     connection.onopen = () => {
         console.log("WS connection open");
@@ -38,35 +34,23 @@ class Graph extends Component {
         return;
       }
 
-      if (json.type === 'post_data') {
-        if (this.state.tempData.length === batchUpdateSize) {
-          const avg = this.state.graphData.reduce((sum, b) => (sum + b)) / this.state.graphData.length;
+      if (json.type === 'data') {
+        let avg = 0;
+        let std = 0;
+        
+        if (this.state.graphData.length > 0) {
+          avg = this.state.graphData.reduce((sum, b) => (sum + b)) / this.state.graphData.length;
           const squareDiffSum = this.state.graphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)));
-          const std = Math.sqrt(squareDiffSum / this.state.graphData.length);
-          
-          this.setState(
-            prevState => ({
-              graphData: [...prevState.graphData, ...this.state.tempData].slice(-graphSize),
-              tempData: [],
-              stats: {
-                avg,
-                std,
-                squareDiffSum
-              }
-            })
-          );
-        } else {
-          this.setState(
-            prevState => ({
-              tempData: [...prevState.tempData, json.value]
-            })
-          );
+          std = Math.sqrt(squareDiffSum / this.state.graphData.length);
         }
-      } else if (json.type === 'history') {
+
         this.setState(
           prevState => ({
-            graphData: json.data.slice(0, 500),
-            historicData: json.data.slice(500, json.data.length).slice(-historySize)
+            graphData: [...prevState.graphData, ...json.values].slice(-graphSize),
+            stats: {
+              avg,
+              std
+            }
           })
         );
       } else {
@@ -102,15 +86,16 @@ class Graph extends Component {
 
   render() {
     return (
-      <div className="Graph">
-        <Line
-          data={this.createChartData(this.state.graphData)}
-          options={this.createChartOptions()}
-        />
-        <p>
+      <div className="graph_wrapper">
+        <div className="graph">
+          <Line
+            data={this.createChartData(this.state.graphData)}
+            options={this.createChartOptions()}
+          />
+        </div>
+        <p className="graph_data">
           Avg: {this.state.stats.avg}<br/>
-          Std: {this.state.stats.std}<br/>
-          squareDiffSum: {this.state.stats.squareDiffSum}<br/>
+          Std: {this.state.stats.std}
         </p>
       </div>
     );
