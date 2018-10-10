@@ -3,7 +3,7 @@ import moment from 'moment';
 
 class Home extends Component {
   render() {
-    let yesterday = moment.utc().subtract(1, 'days').day()
+    let yesterday = moment.utc().subtract(1, 'days').date()
     let previous_hour = moment.utc().subtract(1, 'hours').hour()
 
     return (
