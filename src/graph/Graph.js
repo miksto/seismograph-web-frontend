@@ -35,18 +35,19 @@ class Graph extends Component {
       }
 
       if (json.type === 'data') {
+        const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
         let avg = 0;
         let std = 0;
         
-        if (this.state.graphData.length > 0) {
-          avg = this.state.graphData.reduce((sum, b) => (sum + b)) / this.state.graphData.length;
-          const squareDiffSum = this.state.graphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)));
-          std = Math.sqrt(squareDiffSum / this.state.graphData.length);
+        if (newGraphData.length > 0) {
+          avg = newGraphData.reduce((sum, b) => (sum + b), 0) / newGraphData.length;
+          const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)), 0);
+          std = Math.sqrt(squareDiffSum / newGraphData.length);
         }
 
         this.setState(
           prevState => ({
-            graphData: [...prevState.graphData, ...json.values].slice(-graphSize),
+            graphData: newGraphData,
             stats: {
               avg,
               std
