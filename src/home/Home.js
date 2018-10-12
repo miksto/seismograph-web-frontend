@@ -6,7 +6,7 @@ class Home extends Component {
   render() {
     let yesterday = moment.utc().subtract(1, 'days').date()
     let previous_hour = moment.utc().subtract(1, 'hours').hour()
-    let image_host = 'http://46.101.184.224:8080'
+    let image_host = 'http://128.199.197.181:8080'
 
     return (
       <div>
