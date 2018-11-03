@@ -1,0 +1,21 @@
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav a {
+  background-color: black;
+  color: white;
+  padding: 1em 1.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  background-color: #555;
+}
+
+nav a:active {
+  background-color: #555;
+}
