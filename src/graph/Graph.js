@@ -44,7 +44,6 @@ class Graph extends Component {
           const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)), 0);
           std = Math.sqrt(squareDiffSum / newGraphData.length);
         }
-
         this.setState(
           prevState => ({
             graphData: newGraphData,
@@ -86,6 +85,10 @@ class Graph extends Component {
   }
 
   render() {
+    let display_avg = this.state.stats.avg ? this.state.stats.avg.toFixed(2) : 0
+    let display_std = this.state.stats.std ? (this.state.stats.std).toFixed(2) : 0
+    let display_cv = ((this.state.stats.std / this.state.stats.avg)*1000).toFixed(2)
+
     return (
       <div className="graph_wrapper">
         <div className="graph">
@@ -95,8 +98,9 @@ class Graph extends Component {
           />
         </div>
         <p className="graph_data">
-          Avg: {this.state.stats.avg}<br/>
-          Std: {this.state.stats.std}
+          Avg: {display_avg}<br/>
+          Std: {display_std}<br/>
+          mCV: {display_cv} 
         </p>
       </div>
     );
