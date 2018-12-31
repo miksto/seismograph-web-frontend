@@ -87,7 +87,7 @@ class Graph extends Component {
   render() {
     let display_avg = this.state.stats.avg ? this.state.stats.avg.toFixed(2) : 0
     let display_std = this.state.stats.std ? (this.state.stats.std).toFixed(2) : 0
-    let display_cv = ((this.state.stats.std / this.state.stats.avg)*1000).toFixed(2)
+    let display_cv = ((this.state.stats.std / 16000)*1000).toFixed(2)
 
     return (
       <div className="graph_wrapper">
