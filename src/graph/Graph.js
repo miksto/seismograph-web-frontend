@@ -14,7 +14,7 @@ class Graph extends Component {
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const graphSize = 200;
+    const graphSize = 15*20;
     
     let connection = new WebSocket('ws://128.199.197.181:3000/web-client');
 
