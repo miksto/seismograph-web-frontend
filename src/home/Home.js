@@ -4,8 +4,8 @@ import Graph from '../graph/Graph'
 
 class Home extends Component {
   render() {
-    let yesterday = moment.utc().subtract(1, 'days').date()
-    let image_host = 'http://128.199.197.181:8080'
+    let yesterday = moment.utc().subtract(1, 'days').date();
+    let image_host = 'http://' + process.env.REACT_APP_API_ENDPOINT;
 
     return (
       <div>

@@ -10,7 +10,7 @@ import Hourly from './hourly/Hourly'
 
 class App extends Component {
   render() {
-    let current_utc_time = moment.utc().format("HH:mm")
+    let current_utc_time = moment.utc().format("HH:mm");
 
     return (
       <Router>

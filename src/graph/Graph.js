@@ -15,8 +15,8 @@ class Graph extends Component {
   componentDidMount() {
     window.WebSocket = window.WebSocket;
     const graphSize = 15*20;
-    
-    let connection = new WebSocket('ws://128.199.197.181:3000/web-client');
+    let webSocketUrl = 'ws://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client';
+    let connection = new WebSocket(webSocketUrl);
 
     connection.onopen = () => {
         console.log("WS connection open");
