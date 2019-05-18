@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Graph.css';
-import {Line} from "react-chartjs"
+import {Line} from "react-chartjs-2"
 
 class Graph extends Component {
   
@@ -72,15 +72,36 @@ class Graph extends Component {
 
   createChartOptions() {
     return {
-      animation: false,
-      bezierCurve : false,
-      bezierCurveTension : 0.0,
-      scaleShowGridLines : false,
-      pointDot : false,
-      datasetFill : false,
+      animation: true,
       responsive: true,
       maintainAspectRatio: false,
-      showTooltips: false
+      legend: {
+        display: false
+      },
+      elements: {
+        line: {
+          fill: false,
+          tension: 0.0,
+          borderWidth: 2
+        },
+        point: {
+            radius: 0
+        }
+      },
+      fill: false,
+      scales: {
+        xAxes: [{
+            gridLines: {
+                display:false
+            }
+        }],
+        yAxes: [{
+            gridLines: {
+                display:false
+            }   
+        }]
+      },
+      datasetFill : false,
     }
   }
 
