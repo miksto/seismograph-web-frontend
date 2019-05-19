@@ -14,7 +14,7 @@ class Graph extends Component {
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const graphSize = 15*20;
+    const graphSize = 15*20; // 15 samples per second times 20 second
     let webSocketUrl = 'ws://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client';
     let connection = new WebSocket(webSocketUrl);
 
