@@ -5,7 +5,7 @@ import Graph from '../graph/Graph'
 class Home extends Component {
   render() {
     let yesterday = moment.utc().subtract(1, 'days').date();
-    let image_host = 'http://' + process.env.REACT_APP_API_ENDPOINT;
+    let image_host = 'https://' + process.env.REACT_APP_API_ENDPOINT;
 
     return (
       <div>

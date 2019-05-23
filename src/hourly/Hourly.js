@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Hourly extends Component {
   render() {
-    let image_host = 'http://' + process.env.REACT_APP_API_ENDPOINT;
+    let image_host = 'https://' + process.env.REACT_APP_API_ENDPOINT;
     return (
       <div>
         <h2>Hourly plots</h2>
