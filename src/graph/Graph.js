@@ -14,12 +14,32 @@ class Graph extends Component {
 
   componentDidMount() {
     window.WebSocket = window.WebSocket;
-    const graphSize = 15*20; // 15 samples per second times 20 second
+    this.setupWebSocket();
+  }
+
+  createChartData(data) {
+    return {
+      labels: data.map(()=>""),
+      datasets: [
+        {
+          data: data
+        }
+      ]
+    };
+  }
+
+  setupWebSocket() {
     let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client';
     let connection = new WebSocket(webSocketUrl);
 
     connection.onopen = () => {
         console.log("WS connection open");
+    };
+
+    connection.onclose = () => {
+      setTimeout(() => {
+        this.setupWebSocket()
+      }, 1000);
     };
 
     connection.onerror = (error) => {
@@ -35,39 +55,33 @@ class Graph extends Component {
       }
 
       if (json.type === 'data') {
-        const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
-        let avg = 0;
-        let std = 0;
-        
-        if (newGraphData.length > 0) {
-          avg = newGraphData.reduce((sum, b) => (sum + b), 0) / newGraphData.length;
-          const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)), 0);
-          std = Math.sqrt(squareDiffSum / newGraphData.length);
-        }
-        this.setState(
-          prevState => ({
-            graphData: newGraphData,
-            stats: {
-              avg,
-              std
-            }
-          })
-        );
+        this.updateGraphData(json)
       } else {
         console.log("Received invalid type: '" + json.type + "'");
       }
     };
   }
-
-  createChartData(data) {
-    return {
-      labels: data.map(()=>""),
-      datasets: [
-        {
-          data: data
+  
+  updateGraphData(json) {
+    const graphSize = 15*20; // 15 samples per second times 20 second
+    const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
+    let avg = 0;
+    let std = 0;
+    
+    if (newGraphData.length > 0) {
+      avg = newGraphData.reduce((sum, b) => (sum + b), 0) / newGraphData.length;
+      const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)), 0);
+      std = Math.sqrt(squareDiffSum / newGraphData.length);
+    }
+    this.setState(
+      prevState => ({
+        graphData: newGraphData,
+        stats: {
+          avg,
+          std
         }
-      ]
-    };
+      })
+    );
   }
 
   createChartOptions() {
