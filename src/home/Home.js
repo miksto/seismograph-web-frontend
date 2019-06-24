@@ -9,7 +9,7 @@ class Home extends Component {
 
     return (
       <div>
-        <h2>Last 20 seconds</h2>
+        <h2>Last 30 seconds</h2>
         <Graph/>
         <h2>Last 10 minutes</h2>
         <img src={`${image_host}/images/last_10_minutes.svgz`} />

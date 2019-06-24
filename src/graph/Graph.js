@@ -63,7 +63,7 @@ class Graph extends Component {
   }
   
   updateGraphData(json) {
-    const graphSize = 15*20; // 15 samples per second times 20 second
+    const graphSize = 15*30; // 15 samples per second times 30 second
     const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
     let avg = 0;
     let std = 0;
