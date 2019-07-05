@@ -77,7 +77,7 @@ class Graph extends Component {
       prevState => ({
         graphData: newGraphData,
         stats: {
-          avg,
+          ...json.stats,
           std
         }
       })
@@ -120,9 +120,17 @@ class Graph extends Component {
   }
 
   render() {
-    let display_avg = this.state.stats.avg ? this.state.stats.avg.toFixed(2) : 0
-    let display_std = this.state.stats.std ? (this.state.stats.std).toFixed(2) : 0
-    let display_cv = ((this.state.stats.std / 8192)*1000).toFixed(2)
+    let display_avg = 0;
+    let display_std = 0;
+    let display_cv = 0;
+    let display_rolling_avg = 0;
+
+    if (this.state.stats.batch_avg !== undefined) {
+      display_avg = this.state.stats.batch_avg.toFixed(2)
+      display_rolling_avg = this.state.stats.rolling_avg.toFixed(2)
+      display_std = this.state.stats.std.toFixed(2)
+      display_cv = ((this.state.stats.std / this.state.stats.rolling_avg)*1000).toFixed(2)
+    }
 
     return (
       <div className="graph_wrapper">
@@ -133,9 +141,10 @@ class Graph extends Component {
           />
         </div>
         <p className="graph_data">
-          Avg: {display_avg}<br/>
+          Batch Avg: {display_avg}<br/>
+          Rolling Avg: {display_rolling_avg}<br/>
           Std: {display_std}<br/>
-          mCV: {display_cv} 
+          mCV: {display_cv}
         </p>
       </div>
     );
