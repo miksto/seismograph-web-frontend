@@ -65,12 +65,12 @@ class Graph extends Component {
   updateGraphData(json) {
     const graphSize = 15*30; // 15 samples per second times 30 second
     const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
-    let avg = 0;
+    let graph_avg = 0;
     let std = 0;
     
     if (newGraphData.length > 0) {
-      avg = newGraphData.reduce((sum, b) => (sum + b), 0) / newGraphData.length;
-      const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-avg)*(a-avg)), 0);
+      graph_avg = newGraphData.reduce((sum, b) => (sum + b), 0) / newGraphData.length;
+      const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-graph_avg)*(a-graph_avg)), 0);
       std = Math.sqrt(squareDiffSum / newGraphData.length);
     }
     this.setState(
@@ -78,7 +78,8 @@ class Graph extends Component {
         graphData: newGraphData,
         stats: {
           ...json.stats,
-          std
+          std,
+          graph_avg
         }
       })
     );
@@ -120,16 +121,18 @@ class Graph extends Component {
   }
 
   render() {
-    let display_avg = 0;
+    let display_graph_avg = 0;
+    let display_batch_avg = 0;
     let display_std = 0;
     let display_cv = 0;
     let display_rolling_avg = 0;
 
     if (this.state.stats.batch_avg !== undefined) {
-      display_avg = this.state.stats.batch_avg.toFixed(2)
-      display_rolling_avg = this.state.stats.rolling_avg.toFixed(2)
-      display_std = this.state.stats.std.toFixed(2)
-      display_cv = ((this.state.stats.std / this.state.stats.rolling_avg)*1000).toFixed(2)
+      display_graph_avg = this.state.stats.graph_avg.toFixed(2);
+      display_batch_avg = this.state.stats.batch_avg.toFixed(2);
+      display_rolling_avg = this.state.stats.rolling_avg.toFixed(2);
+      display_std = this.state.stats.std.toFixed(2);
+      display_cv = ((this.state.stats.std / this.state.stats.rolling_avg)*1000).toFixed(2);
     }
 
     return (
@@ -141,7 +144,8 @@ class Graph extends Component {
           />
         </div>
         <p className="graph_data">
-          Batch Avg: {display_avg}<br/>
+          Graph Avg: {display_graph_avg}<br/>
+          Batch Avg: {display_batch_avg}<br/>
           Rolling Avg: {display_rolling_avg}<br/>
           Std: {display_std}<br/>
           mCV: {display_cv}
