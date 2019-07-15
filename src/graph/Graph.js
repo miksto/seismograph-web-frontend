@@ -9,12 +9,25 @@ class Graph extends Component {
     this.state = {
       graphData: [],
       stats: {}
-    }
+    };
   }
 
   componentDidMount() {
-    window.WebSocket = window.WebSocket;
+    this.allowWebSocketReconnect = true;
     this.setupWebSocket();
+  }
+  
+  componentDidUpdate(prevProps) {
+    if (this.props.seismometer_id !== prevProps.seismometer_id) {
+      this.websocket.close();
+      this.setupWebSocket();
+    }
+  }
+
+  componentWillUnmount() {
+    this.allowWebSocketReconnect = false;
+    this.websocket.close();
+    this.websocket = null;
   }
 
   createChartData(data) {
@@ -29,24 +42,29 @@ class Graph extends Component {
   }
 
   setupWebSocket() {
-    let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client?seismometer_id=lehman';
-    let connection = new WebSocket(webSocketUrl);
+    const seismometer_id = this.props.seismometer_id;
+    let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client?seismometer_id=' + seismometer_id;
+    this.websocket = new WebSocket(webSocketUrl);
 
-    connection.onopen = () => {
-        console.log("WS connection open");
+    this.websocket.onopen = () => {
+        console.log("WS connection open for: " + seismometer_id);
     };
 
-    connection.onclose = () => {
-      setTimeout(() => {
-        this.setupWebSocket()
-      }, 1000);
+    this.websocket.onclose = () => {
+      console.log("WS connection closed for: " + seismometer_id);
+      if (this.allowWebSocketReconnect && seismometer_id === this.props.seismometer_id) {
+        setTimeout(() => {
+          this.setupWebSocket()
+        }, 1000);
+      }
     };
 
-    connection.onerror = (error) => {
-        console.log("WS connection error", error);
+    this.websocket.onerror = (error) => {
+        console.log("WS connection error for: " + seismometer_id, error);
     };
 
-    connection.onmessage = (message) => {
+    this.websocket.onmessage = (message) => {
+      console.log("WS onmessage for: " + seismometer_id);
       try {
         var json = JSON.parse(message.data);
       } catch (e) {
@@ -55,7 +73,7 @@ class Graph extends Component {
       }
 
       if (json.type === 'data') {
-        this.updateGraphData(json)
+        this.updateGraphData(json);
       } else {
         console.log("Received invalid type: '" + json.type + "'");
       }
@@ -73,16 +91,14 @@ class Graph extends Component {
       const squareDiffSum = newGraphData.reduce((sum, a) => (sum + (a-graph_avg)*(a-graph_avg)), 0);
       std = Math.sqrt(squareDiffSum / newGraphData.length);
     }
-    this.setState(
-      prevState => ({
-        graphData: newGraphData,
-        stats: {
-          ...json.stats,
-          std,
-          graph_avg
-        }
-      })
-    );
+    this.setState({
+      graphData: newGraphData,
+      stats: {
+        ...json.stats,
+        std,
+        graph_avg
+      }
+    });
   }
 
   createChartOptions() {
