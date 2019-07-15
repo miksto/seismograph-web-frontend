@@ -29,7 +29,7 @@ class Graph extends Component {
   }
 
   setupWebSocket() {
-    let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client';
+    let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client?seismometer_id=lehman';
     let connection = new WebSocket(webSocketUrl);
 
     connection.onopen = () => {
