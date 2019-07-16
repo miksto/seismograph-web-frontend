@@ -43,7 +43,8 @@ class Graph extends Component {
 
   setupWebSocket() {
     const seismometer_id = this.props.seismometer_id;
-    let webSocketUrl = 'wss://' + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client?seismometer_id=' + seismometer_id;
+    let webSocketUrl = process.env.REACT_APP_WS_SCHEME + process.env.REACT_APP_API_ENDPOINT 
+        + '/ws/web-client?seismometer_id=' + seismometer_id + "&history_length=" + this.props.graph_length;
     this.websocket = new WebSocket(webSocketUrl);
 
     this.websocket.onopen = () => {
@@ -81,7 +82,7 @@ class Graph extends Component {
   }
   
   updateGraphData(json) {
-    const graphSize = 15*30; // 15 samples per second times 30 second
+    const graphSize = json.stats.decimated_sampling_rate * this.props.graph_length
     const newGraphData = [...this.state.graphData, ...json.values].slice(-graphSize);
     let graph_avg = 0;
     let std = 0;
