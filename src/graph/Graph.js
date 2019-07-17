@@ -143,6 +143,7 @@ class Graph extends Component {
     let display_std = 0;
     let display_cv = 0;
     let display_rolling_avg = 0;
+    let display_actual_sample_rate = 0;
 
     if (this.state.stats.batch_avg !== undefined) {
       display_graph_avg = this.state.stats.graph_avg.toFixed(2);
@@ -150,6 +151,7 @@ class Graph extends Component {
       display_rolling_avg = this.state.stats.rolling_avg.toFixed(2);
       display_std = this.state.stats.std.toFixed(2);
       display_cv = ((this.state.stats.std / this.state.stats.rolling_avg)*1000).toFixed(2);
+      display_actual_sample_rate = this.state.stats.actual_sampling_rate;
     }
 
     return (
@@ -164,6 +166,7 @@ class Graph extends Component {
           Graph Avg: {display_graph_avg}<br/>
           Batch Avg: {display_batch_avg}<br/>
           Rolling Avg: {display_rolling_avg}<br/>
+          Actual sampling rate: {display_actual_sample_rate}<br/>
           Std: {display_std}<br/>
           mCV: {display_cv}
         </p>
