@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Menu from '../menu/DataViewMenu'
 import Home from '../home/Home'
 import Hourly from '../hourly/Hourly'
