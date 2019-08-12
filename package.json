@@ -7,14 +7,14 @@
     "node": "10.15.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.4",
+    "@babel/runtime": "^7.5.5",
     "ajv": "^6.10.2",
     "chart.js": "^2.8.0",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-chartjs-2": "^2.7.6",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
