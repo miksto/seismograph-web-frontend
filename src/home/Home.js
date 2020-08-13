@@ -18,13 +18,13 @@ class Home extends Component {
         <h2>Last {GRAPH_LENGTH[seismometer_id]} seconds</h2>
         <Graph seismometer_id={seismometer_id} graph_length={GRAPH_LENGTH[seismometer_id]} />
         <h2>Last 10 minutes</h2>
-        <img src={`${image_host}/images/last_10_minutes.svgz`} />
+        <img src={`${image_host}/images/last_10_minutes.png`} />
 
         <h2>Last 60 minutes</h2>
-        <img src={`${image_host}/images/last_60_minutes.svgz`} />
+        <img src={`${image_host}/images/last_60_minutes.png`} />
 
         <h2>Yesterday</h2>
-        <img src={`${image_host}/images/day_${yesterday}.svgz`} />
+        <img src={`${image_host}/images/day_${yesterday}.png`} />
       </div>
     );
   }

@@ -9,7 +9,7 @@ class Hourly extends Component {
         <h2>Hourly plots</h2>
         {
           [...Array(24).keys()].map(
-            (object, i) => <img key={i} src={`${image_host}/images/hour_${i}.svgz`} />
+            (object, i) => <img key={i} src={`${image_host}/images/hour_${i}.png`} />
           )
         }
       </div>
