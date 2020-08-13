@@ -7,15 +7,15 @@
     "node": "10.15.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
-    "ajv": "^6.10.2",
-    "chart.js": "^2.8.0",
-    "lodash": "^4.17.19",
-    "moment": "^2.24.0",
-    "react": "^16.9.0",
-    "react-chartjs-2": "^2.7.6",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
+    "@babel/runtime": "^7.11.2",
+    "ajv": "^6.12.3",
+    "chart.js": "^2.9.3",
+    "lodash": "^4.17.20",
+    "moment": "^2.27.0",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1"
   },
   "scripts": {
