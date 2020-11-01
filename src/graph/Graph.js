@@ -43,8 +43,7 @@ class Graph extends Component {
 
   setupWebSocket() {
     const seismometer_id = this.props.seismometer_id;
-    let webSocketUrl = process.env.REACT_APP_WS_SCHEME + process.env.REACT_APP_API_ENDPOINT 
-        + '/ws/web-client?seismometer_id=' + seismometer_id + "&history_length=" + this.props.graph_length;
+    let webSocketUrl = this.props.web_socket_base_url + '?seismometer_id=' + seismometer_id + "&history_length=" + this.props.graph_length;
     this.websocket = new WebSocket(webSocketUrl);
 
     this.websocket.onopen = () => {
