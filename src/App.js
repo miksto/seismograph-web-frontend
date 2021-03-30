@@ -17,7 +17,7 @@ class App extends Component {
           <SeismographMenu />
           <Switch>
             <Route path="/:seismometer_id" component={SeismographView}  />
-            <Redirect from="/" exact={true} to="/lehman" />
+            <Redirect from="/" exact={true} to="/vertical_pendulum" />
           </Switch>
         </div>
       </Router>
