@@ -103,11 +103,13 @@ class Graph extends Component {
 
   createChartOptions() {
     return {
-      animation: true,
+      animation: false,
       responsive: true,
       maintainAspectRatio: false,
-      legend: {
-        display: false
+      plugins: {
+        legend: {
+          display: false
+        }
       },
       elements: {
         line: {
@@ -121,16 +123,18 @@ class Graph extends Component {
       },
       fill: false,
       scales: {
-        xAxes: [{
-            gridLines: {
-                display:false
-            }
-        }],
-        yAxes: [{
-            gridLines: {
-                display:false
-            }   
-        }]
+        x: {
+            grid: {
+                display: false
+            },
+            display: false
+        },
+        y: {
+            grid: {
+                display: false
+            },
+            drawBorder: false
+        }
       },
       datasetFill : false,
     }
