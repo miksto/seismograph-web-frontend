@@ -7,7 +7,7 @@
     "node": "12.18.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.13.10",
+    "@babel/runtime": "^7.14.0",
     "ajv": "^8.6.0",
     "chart.js": "^3.3.2",
     "lodash": "^4.17.21",
