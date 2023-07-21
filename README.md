@@ -1,4 +1,4 @@
-# Seismograph Backend
+# Seismograph Web Frontend
 
 This is the web frontend for a seismograph I built.
 
