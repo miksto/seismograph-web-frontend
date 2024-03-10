@@ -14,7 +14,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Mickes seismometer</h1>
           </header>
-          <SeismographMenu />
+          {/* <SeismographMenu /> */}
           <Switch>
             <Route path="/:seismometer_id" component={SeismographView}  />
             <Redirect from="/" exact={true} to="/vertical_pendulum" />
