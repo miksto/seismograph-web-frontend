@@ -1,4 +1,4 @@
-FROM node:stretch
+FROM node:lts
 # Create app directory
 WORKDIR /home/node/app
 

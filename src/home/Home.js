@@ -11,7 +11,7 @@ class Home extends Component {
   render() {
     const { seismometer_id } = this.props.match.params;
     const yesterday = moment.utc().subtract(1, 'days').date();
-    const image_host = process.env.REACT_APP_HTTP_SCHEME + process.env.REACT_APP_API_ENDPOINT + '/' + seismometer_id;
+    const image_host = process.env.REACT_APP_IMAGE_BASE_URL + seismometer_id;
     const web_socket_base_url =  process.env.REACT_APP_WS_SCHEME + process.env.REACT_APP_API_ENDPOINT + '/ws/web-client'
 
     return (
