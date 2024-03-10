@@ -10,9 +10,19 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: npm install
+            
+      - name: Prepare Public folder
+        run: npm run build
+        env:
+          NODE_ENV: production
+          REACT_APP_IMAGE_BASE_URL: ${{ vars.REACT_APP_IMAGE_BASE_URL }}    
+
+      - name: Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SEISMOMETER_8219F }}'
